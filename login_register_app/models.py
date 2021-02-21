@@ -22,7 +22,7 @@ class UserManager(models.Manager):
 #--------------------------------------------Email-----------------------------------------------
             if post_data['email'] == '' :
                 errors['email']='Email field is required'
-            elif not EMAIL_REGEX.match(postData['email']):
+            elif not EMAIL_REGEX.match(post_data['email']):
                 errors['email'] = "Invalid email address!"
             if self.validate_email_exist(post_data) is True:
                 errors['email']='Sorry. An account with that email already exists'
@@ -32,6 +32,22 @@ class UserManager(models.Manager):
             elif post_data['password'] != post_data['password_confirm']:
                 errors['password'] = "Please make sure that both passwords match"
         return errors
+
+    def validateLogin(self, post_data):
+        error_pw={}
+        if len(post_data['email']) == 0  or len(post_data['password']) == 0:
+            error_pw['all']='Please type your email and password' 
+        else:
+            user = User.objects.filter(email=post_data['email'].lower()) 
+            print(user)
+            if len(user) < 1:
+                error_pw['email']='Sorry. This email does not exist in our database'
+                return  error_pw
+            current_logged_user = user[0]  #we know that we only have 1 user with that email since we preveted duplicated emails
+            check_password = bcrypt.checkpw(post_data['password'].encode(), current_logged_user.password.encode()) 
+            if not check_password:
+                error_pw['password']='Your email/password combination is incorrect'
+        return error_pw
 
     def validate_email_exist(self, post_data):
             check_email_exist=len(self.filter(email=post_data['email'].lower()))

@@ -23,7 +23,14 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        logged_user = User.objects.get(email=request.POST['email'].lower())
-        request.session['user_id'] = logged_user.id
-        request.session['first_name'] = logged_user.first_name
+        errors = User.objects.validateLogin(request.POST)
+        if len( errors) > 0:  
+            for key, value in errors.items():  
+                messages.error(request, value)
+            return redirect('/')
+        else:  
+            logged_user = User.objects.get(email=request.POST['email'].lower())
+            request.session['user_id'] = logged_user.id
+            request.session['first_name'] = logged_user.first_name
+            return redirect('/success')
     return redirect('/')
