@@ -32,5 +32,9 @@ def login(request):
             logged_user = User.objects.get(email=request.POST['email'].lower())
             request.session['user_id'] = logged_user.id
             request.session['first_name'] = logged_user.first_name
-            return redirect('/success')
+            return redirect('/')
     return redirect('/')
+
+def logout(request): 
+    request.session.clear()
+    return redirect('/') 

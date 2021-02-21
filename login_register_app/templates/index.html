@@ -9,7 +9,7 @@
     <body>
         <div class="container col-md-8 mt-5">
             {%if request.session.user_id%}
-                <p class="text-right d-block">Logged in as <a href="#">{{request.session.first_name}}</a></p>
+                <p class="text-right d-block">Logged in as <a href="#">{{request.session.first_name}}</a><span><a href="/logout">| Logout</a></span></p>
             {%endif%}
             <div class="row">
                 <form action="/register" method="post" class="col-6">
