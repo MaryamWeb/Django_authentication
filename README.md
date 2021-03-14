@@ -20,7 +20,7 @@ In the terminal run `pip install -r requirements.txt` This will install all of t
 `python manage.py migrate`
 
 ## Running Your app locally
-Make sure you are in the correct directory then activate your virtual enviornment   --> `call env_sportsquiz\Scripts\activate`
+Make sure you are in the correct directory then activate your virtual enviornment   --> `call ENV_NAME\Scripts\activate`
 
 run `python manage.py runserver 7000`
 
